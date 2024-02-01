@@ -17,9 +17,11 @@ import java.util.Optional;
 @Service
 public class CarService {
     private final CarRepository carRepository;
+    private final CarMapper carMapper;
 
-    public CarService(CarRepository carRepository) {
+    public CarService(CarRepository carRepository, CarMapper carMapper) {
         this.carRepository = carRepository;
+        this.carMapper = carMapper;
     }
 
 
@@ -28,18 +30,18 @@ public class CarService {
         if(cars.isEmpty()) {
             throw new CarsNotFoundException();
         }
-        return cars.stream().map(CarMapper::convertToDTO).toList();
+        return cars.stream().map(carMapper::convertToDTO).toList();
     }
 
     public CarDTO getCar(Integer id) {
         Optional<Car> car = carRepository.findById(id);
-        return car.map(CarMapper::convertToDTO).orElseThrow(() ->new CarNotFoundException(id));
+        return car.map(carMapper::convertToDTO).orElseThrow(() ->new CarNotFoundException(id));
     }
 
     @Transactional
     public CarDTO saveCar(CarDTO carDTO) {
-        Car car = CarMapper.convertToEntity(carDTO);
-        return CarMapper.convertToDTO(carRepository.save(car));
+        Car car = carMapper.convertToEntity(carDTO);
+        return carMapper.convertToDTO(carRepository.save(car));
     }
 
     @Transactional
@@ -54,7 +56,7 @@ public class CarService {
         if(carsByPower.isEmpty()) {
             throw new CarsNotFoundException(power);
         }
-        return carsByPower.stream().map(CarMapper::convertToDTO).toList();
+        return carsByPower.stream().map(carMapper::convertToDTO).toList();
     }
 
 
@@ -63,7 +65,7 @@ public class CarService {
         if(carsByProducer.isEmpty()) {
             throw new CarsNotFoundException(producer);
         }
-        return carsByProducer.stream().map(CarMapper::convertToDTO).toList();
+        return carsByProducer.stream().map(carMapper::convertToDTO).toList();
     }
 
     public List<CarDTO> findAllByParams(SearchCriteriaDTO searchCriteriaDTO) {
@@ -75,6 +77,6 @@ public class CarService {
         if(carsList.isEmpty()) {
             throw new CarsNotFoundException(searchCriteriaDTO);
         }
-        return carsList.stream().map(CarMapper::convertToDTO).toList();
+        return carsList.stream().map(carMapper::convertToDTO).toList();
     }
 }
