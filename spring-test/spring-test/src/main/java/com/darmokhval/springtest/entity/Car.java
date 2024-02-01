@@ -1,6 +1,5 @@
 package com.darmokhval.springtest.entity;
 
-import com.darmokhval.springtest.dto.CarDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

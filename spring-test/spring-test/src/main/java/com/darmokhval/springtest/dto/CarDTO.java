@@ -1,6 +1,5 @@
 package com.darmokhval.springtest.dto;
 
-import com.darmokhval.springtest.entity.Car;
 import com.darmokhval.springtest.util.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.Max;
@@ -8,8 +7,10 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class CarDTO {
     @JsonView(View.HighAccess.class)
     private int id;
@@ -27,9 +28,6 @@ public class CarDTO {
     @Max(value = 1000, message = "Maximum value - 1000")
     @JsonView(View.MediumAccess.class)
     private Integer power;
-
-    public CarDTO() {
-    }
 
     public CarDTO(String model, String producer, int power) {
         this.model = model;

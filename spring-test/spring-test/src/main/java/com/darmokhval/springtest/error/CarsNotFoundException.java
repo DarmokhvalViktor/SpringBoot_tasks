@@ -16,9 +16,6 @@ public class CarsNotFoundException extends RuntimeException{
     public CarsNotFoundException(Integer searchVariable) {
         super(String.format("No cars by '%d' has been found", searchVariable));
     }
-//    public CarsNotFoundException(String ...searchVariable) {
-//        super(String.format("No cars by '%s' has been found", String.join(", ", searchVariable)));
-//    }
     public CarsNotFoundException(SearchCriteriaDTO searchCriteriaDTO) {
         super(buildSearchCriteriaDTOError(searchCriteriaDTO));
     }

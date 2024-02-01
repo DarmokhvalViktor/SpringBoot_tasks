@@ -7,6 +7,7 @@ import com.darmokhval.springtest.error.CarNotFoundException;
 import com.darmokhval.springtest.error.CarsNotFoundException;
 import com.darmokhval.springtest.mapper.CarMapper;
 import com.darmokhval.springtest.repository.CarRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 @Service
 public class CarService {
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
 
     public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
@@ -35,11 +36,13 @@ public class CarService {
         return car.map(CarMapper::convertToDTO).orElseThrow(() ->new CarNotFoundException(id));
     }
 
+    @Transactional
     public CarDTO saveCar(CarDTO carDTO) {
         Car car = CarMapper.convertToEntity(carDTO);
         return CarMapper.convertToDTO(carRepository.save(car));
     }
 
+    @Transactional
     public CarDTO deleteCar(Integer id) {
         CarDTO deletedCar = getCar(id);
         carRepository.deleteById(id);
