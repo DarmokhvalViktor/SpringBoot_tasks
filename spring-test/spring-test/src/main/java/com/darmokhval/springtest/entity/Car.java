@@ -18,7 +18,7 @@ public class Car {
 
     private String model;
     private String producer;
-    private int power;
+    private Integer power;
 
     public Car() {
     }
@@ -27,9 +27,5 @@ public class Car {
         this.model = model;
         this.producer = producer;
         this.power = power;
-    }
-
-    public static Car convertToEntity(CarDTO carDTO) {
-        return new Car(carDTO.getModel(), carDTO.getProducer(), carDTO.getPower());
     }
 }

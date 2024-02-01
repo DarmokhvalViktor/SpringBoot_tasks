@@ -1,14 +1,32 @@
 package com.darmokhval.springtest.dto;
 
 import com.darmokhval.springtest.entity.Car;
+import com.darmokhval.springtest.util.View;
+import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class CarDTO {
+    @JsonView(View.HighAccess.class)
     private int id;
+
+    @NotBlank(message = "Field model must not be blank")
+    @JsonView(View.LowAccess.class)
     private String model;
+
+    @NotBlank(message = "Field producer must not be blank")
+    @JsonView(View.LowAccess.class)
     private String producer;
-    private int power;
+
+    @NotNull(message = "Field power must not be null")
+    @Min(value = 1, message = "Minimum value - 1")
+    @Max(value = 1000, message = "Maximum value - 1000")
+    @JsonView(View.MediumAccess.class)
+    private Integer power;
 
     public CarDTO() {
     }
@@ -26,7 +44,5 @@ public class CarDTO {
         this.power = power;
     }
 
-    public static CarDTO convertToDTO(Car car) {
-        return new CarDTO(car.getId(), car.getModel(), car.getProducer(), car.getPower());
-    }
+
 }
