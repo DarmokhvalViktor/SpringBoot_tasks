@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,8 +50,7 @@ public class CarService {
 
     @Transactional
     public CarDTO saveCar(CarDTO carDTO, MultipartFile multipartFile) {
-        String fileName = saveFile(multipartFile);
-//        String fileDownloadUri = buildFileDownloadUri(fileName);
+        saveFile(multipartFile);
         Car car = carMapper.convertToEntity(carDTO);
         car.setPhotoPath(multipartFile.getOriginalFilename());
         Car savedCar = carRepository.save(car);
@@ -65,19 +63,12 @@ public class CarService {
                 .formatted(car.getModel(), car.getProducer(), car.getPower(), car.getPhotoPath()));
     }
 
-//    private String buildFileDownloadUri(String fileName) {
-//        return ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path(uploadDirectory)
-//                .path(fileName)
-//                .toUriString();
-//    }
 
-    private String saveFile(MultipartFile multipartFile) {
+    private void saveFile(MultipartFile multipartFile) {
         String fileName = multipartFile.getOriginalFilename();
         String filePath = uploadDirectory + File.separator + fileName;
         try {
             multipartFile.transferTo(new File(filePath));
-            return fileName;
         } catch (IOException e) {
             throw new RuntimeException("Failed to save file: " + fileName, e);
         }
