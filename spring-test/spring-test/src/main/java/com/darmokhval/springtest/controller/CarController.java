@@ -9,51 +9,59 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController()
-@RequestMapping("/cars")
 public class CarController {
 
     private final CarService carService;
+
 
     public CarController(CarService carService) {
         this.carService = carService;
     }
 
-    @GetMapping("")
+
+    @GetMapping("/cars")
     @JsonView(View.LowAccess.class)
     public ResponseEntity<List<CarDTO>> getCars() {
         return new ResponseEntity<>(carService.getCars(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/cars/{id}")
     @JsonView(View.HighAccess.class)
     public ResponseEntity<CarDTO> getCar(@PathVariable Integer id) {
         return new ResponseEntity<>(carService.getCar(id), HttpStatus.OK);
     }
 
-    @PostMapping("")
-    public ResponseEntity<CarDTO> saveCar(@RequestBody @Valid CarDTO carDTO) {
-        return new ResponseEntity<>(carService.saveCar(carDTO), HttpStatus.CREATED);
+    @PostMapping("/cars")
+    @JsonView(View.HighAccess.class)
+    public ResponseEntity<CarDTO> saveCar(@RequestPart("car") @Valid CarDTO carDTO,
+                                          @RequestPart("photo") MultipartFile multipartFile) {
+        return new ResponseEntity<>(carService.saveCar(carDTO, multipartFile), HttpStatus.CREATED);
     }
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("/cars/{id}")
+    @JsonView(View.HighAccess.class)
     public ResponseEntity<CarDTO> deleteCar(@PathVariable Integer id) {
         return new ResponseEntity<>(carService.deleteCar(id), HttpStatus.OK);
     }
-    @GetMapping("/power/{power}")
+
+    @GetMapping("/cars/power/{power}")
     @JsonView(View.MediumAccess.class)
     public ResponseEntity<List<CarDTO>> getCarsByPower(@PathVariable Integer power) {
         return new ResponseEntity<>(carService.getCarsByPower(power), HttpStatus.OK);
     }
-    @GetMapping("/producer/{producer}")
+
+    @GetMapping("/cars/producer/{producer}")
     @JsonView(View.MediumAccess.class)
     public ResponseEntity<List<CarDTO>> getCarsByProducer(@PathVariable String producer) {
         return new ResponseEntity<>(carService.getCarsByProducer(producer), HttpStatus.OK);
     }
 
-    @PostMapping("/search")
+    @PostMapping("/cars/search")
     public ResponseEntity<List<CarDTO>> searchCars(@RequestBody @Valid SearchCriteriaDTO searchCriteria) {
         return new ResponseEntity<>(carService.findAllByParams(searchCriteria), HttpStatus.OK);
     }

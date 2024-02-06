@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -29,6 +30,10 @@ public class CarDTO {
     @JsonView(View.MediumAccess.class)
     private Integer power;
 
+    private MultipartFile photo;
+    @JsonView(View.LowAccess.class)
+    private String photoPath;
+
     public CarDTO(String model, String producer, int power) {
         this.model = model;
         this.producer = producer;
@@ -42,5 +47,18 @@ public class CarDTO {
         this.power = power;
     }
 
+    public CarDTO(String model, String producer, Integer power, MultipartFile photo) {
+        this.model = model;
+        this.producer = producer;
+        this.power = power;
+        this.photo = photo;
+    }
 
+    public CarDTO(Integer id, String model, String producer, Integer power, String photoPath) {
+        this.id = id;
+        this.model = model;
+        this.producer = producer;
+        this.power = power;
+        this.photoPath = photoPath;
+    }
 }
