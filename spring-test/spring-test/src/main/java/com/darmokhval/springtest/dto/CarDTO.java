@@ -8,13 +8,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
+import org.bson.types.ObjectId;
 
 @Data
 @NoArgsConstructor
 public class CarDTO {
     @JsonView(View.HighAccess.class)
-    private int id;
+    private ObjectId id;
 
     @NotBlank(message = "Field model must not be blank")
     @JsonView(View.LowAccess.class)
@@ -30,35 +30,29 @@ public class CarDTO {
     @JsonView(View.MediumAccess.class)
     private Integer power;
 
-    private MultipartFile photo;
-    @JsonView(View.LowAccess.class)
-    private String photoPath;
-
     public CarDTO(String model, String producer, int power) {
         this.model = model;
         this.producer = producer;
         this.power = power;
     }
 
-    public CarDTO(int id, String model, String producer, int power) {
+    public CarDTO(ObjectId id, String model, String producer, int power) {
         this.id = id;
         this.model = model;
         this.producer = producer;
         this.power = power;
     }
 
-    public CarDTO(String model, String producer, Integer power, MultipartFile photo) {
+    public CarDTO(String model, String producer, Integer power) {
         this.model = model;
         this.producer = producer;
         this.power = power;
-        this.photo = photo;
     }
 
-    public CarDTO(Integer id, String model, String producer, Integer power, String photoPath) {
+    public CarDTO(ObjectId id, String model, String producer, Integer power) {
         this.id = id;
         this.model = model;
         this.producer = producer;
         this.power = power;
-        this.photoPath = photoPath;
     }
 }

@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 public class CarMapper {
 
     public Car convertToEntity(CarDTO carDTO) {
-        return new Car(carDTO.getModel(), carDTO.getProducer(), carDTO.getPower(), carDTO.getPhotoPath());
+        return new Car(carDTO.getModel(), carDTO.getProducer(), carDTO.getPower());
     }
     public CarDTO convertToDTO(Car car) {
-        return new CarDTO(car.getId(), car.getModel(), car.getProducer(), car.getPower(), car.getPhotoPath());
+        return new CarDTO(car.getId(), car.getModel(), car.getProducer(), car.getPower());
     }
 }

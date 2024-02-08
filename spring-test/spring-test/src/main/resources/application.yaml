@@ -1,17 +1,26 @@
 spring:
   config:
     import: classpath:secrets.yaml
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test
-    username: root
-    password: "!P@$$word1995"
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-    hibernate:
-      ddl-auto: update
+  data:
+    mongodb:
+      database: "carDB"
+      uri: mongodb+srv://admin2:admin2@cluster0.ovbqhpx.mongodb.net/?retryWrites=true&w=majority
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+  # Disable datasource autoconfiguration
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/test
+#    username: root
+#    password: "!P@$$word1995"
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQLDialect
+#    hibernate:
+#      ddl-auto: update
   servlet:
     multipart:
       max-file-size: 10MB
