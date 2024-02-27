@@ -1,21 +1,23 @@
 package com.darmokhval.springtest.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
-@Document
+@Entity
 @Getter
 @Setter
 public class Car {
-    @MongoId
-    private ObjectId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank(message = "Field model must not be blank")
     private String model;
@@ -23,7 +25,7 @@ public class Car {
     private String producer;
     @NotNull(message = "Field power must not be null")
     @Min(value = 1, message = "Minimum value - 1")
-    @Max(value = 1000, message = "Maximum value - 1000")
+    @Max(value = 2000, message = "Maximum value - 1000")
     private Integer power;
 
     public Car() {

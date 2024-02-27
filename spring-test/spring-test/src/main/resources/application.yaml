@@ -1,26 +1,37 @@
 spring:
   config:
     import: classpath:secrets.yaml
-  data:
-    mongodb:
-      database: "carDB"
-      uri: mongodb+srv://admin2:admin2@cluster0.ovbqhpx.mongodb.net/?retryWrites=true&w=majority
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+#  data:
+#    mongodb:
+#      database: "carDB"
+#      uri: mongodb+srv://admin2:admin2@cluster0.ovbqhpx.mongodb.net/?retryWrites=true&w=majority
+#  autoconfigure:
+#    exclude:
+#      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+#      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
   # Disable datasource autoconfiguration
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/test
-#    username: root
-#    password: "!P@$$word1995"
-#  jpa:
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQLDialect
-#    hibernate:
-#      ddl-auto: update
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test
+    username: ${mySQL.username}
+    password: ${mySQL.password}
+#    url: ${dockerMySQL.url}
+#    username: ${dockerMySQL.username}
+#    password: ${dockerMySQL.password}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+  kafka:
+    consumer:
+      topic: car-tuning-events2
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.IntegerDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
   servlet:
     multipart:
       max-file-size: 10MB
@@ -36,3 +47,8 @@ spring:
           auth: true
           starttls:
             enable: true
+
+auth:
+  issuers:
+    google: https://accounts.google.com
+    microsoft: https://login.microsoftonline.com/9188040d-6c67-4c5b-b112-36a304b66dad/v2.0

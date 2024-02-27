@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  kafka:
+    producer:
+      topic: car-tuning-events2
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+auth:
+  issuers:
+    google: https://accounts.google.com
+    microsoft: https://login.microsoftonline.com/9188040d-6c67-4c5b-b112-36a304b66dad/v2.0

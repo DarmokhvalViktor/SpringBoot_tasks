@@ -1,16 +1,19 @@
 package com.darmokhval.springtest.mapper;
 
-import com.darmokhval.springtest.dto.CarDTO;
 import com.darmokhval.springtest.entity.Car;
-import org.springframework.stereotype.Component;
+import org.darmokhval.springtest.rest.model.CarDto;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Component
-public class CarMapper {
+@Mapper(componentModel = "spring")
+public interface CarMapper {
 
-    public Car convertToEntity(CarDTO carDTO) {
-        return new Car(carDTO.getModel(), carDTO.getProducer(), carDTO.getPower());
-    }
-    public CarDTO convertToDTO(Car car) {
-        return new CarDTO(car.getId(), car.getModel(), car.getProducer(), car.getPower());
-    }
+    CarDto toDto(Car car);
+    Car fromDto(CarDto carDto);
+
+    void updateCar(@MappingTarget Car target, CarDto source);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void patchCar(@MappingTarget Car target, CarDto source);
 }
