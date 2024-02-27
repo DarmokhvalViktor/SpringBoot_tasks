@@ -1,0 +1,4 @@
+MYSQL_ROOT_PASSWORD=rootpassword
+MYSQL_DATABASE=mysqldocker
+MYSQL_USER=user1
+MYSQL_PASSWORD=!P@$$word1995
