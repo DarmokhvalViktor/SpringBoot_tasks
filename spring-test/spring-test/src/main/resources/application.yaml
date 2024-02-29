@@ -12,12 +12,12 @@ spring:
   # Disable datasource autoconfiguration
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test
-    username: ${mySQL.username}
-    password: ${mySQL.password}
-#    url: ${dockerMySQL.url}
-#    username: ${dockerMySQL.username}
-#    password: ${dockerMySQL.password}
+#    url: jdbc:mysql://localhost:3306/test
+#    username: ${mySQL.username}
+#    password: ${mySQL.password}
+    url: ${dockerMySQL.url}
+    username: ${dockerMySQL.username}
+    password: ${dockerMySQL.password}
   jpa:
     properties:
       hibernate:

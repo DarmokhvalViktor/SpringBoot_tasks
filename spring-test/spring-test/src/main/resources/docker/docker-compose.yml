@@ -4,8 +4,14 @@ services:
   mySQL:
     image: mysql:8-oracle
     container_name: mysql-local
-    env_file:
-      - .env.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    #    env_file:
+#      - .env
 #    volumes:
 #      - ./mysql_database:/var/lib/mysql
     ports:
